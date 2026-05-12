@@ -13,16 +13,17 @@ genai.configure(api_key=api_key)
 camera_photo = st.camera_input("Take a picture of the menu")
 
 if camera_photo is not None:
-    # BUG FIX: Force the image into standard RGB format
+    # Force the image into standard RGB format
     image = Image.open(camera_photo).convert('RGB')
     
     st.image(image, caption="Captured Menu", use_column_width=True)
     st.write("🤖 Reading the menu... please wait...")
     
-    model = genai.GenerativeModel("gemini-1.5-flash") 
+    # BUG FIX: Updated to the current, active model name
+    model = genai.GenerativeModel("gemini-2.5-flash") 
     prompt = "Extract the food items and their prices from this image. Output them as a clean text list."
     
-    # BUG FIX: Safely try to call the AI and catch the exact error if it fails
+    # Safely try to call the AI
     try:
         response = model.generate_content([prompt, image])
         st.success("Done!")
